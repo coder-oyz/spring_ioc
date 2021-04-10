@@ -13,6 +13,8 @@
         <module>spring2_caltools</module>
         <module>spring3_myspringframework</module>
         <module>spring4_aop</module>
+        <module>spring5_self_aop-jdk</module>
+        <module>spring6_selfaop_cglib</module>
     </modules>
 
     <properties>

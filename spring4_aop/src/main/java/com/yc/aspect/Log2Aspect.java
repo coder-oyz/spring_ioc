@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -16,20 +17,14 @@ import java.util.Date;
  */
 @Aspect        //切面类
 @Component  //托管
-public class LogAspect {
+@Order(value = 10)
+public class Log2Aspect {
 
     //切入点的声明
     @Pointcut("execution(* com.yc.biz.StudentBizImpl.add*(..))")
     private void add(){
 
     }
-
-    //切入点的声明
-    @Pointcut("execution(* com.yc.biz.StudentBizImpl.find*(..))")
-    private void find(){
-
-    }
-
     @Pointcut("execution(* com.yc.biz.StudentBizImpl.update*(..))")
     private void update(){
 
@@ -38,28 +33,28 @@ public class LogAspect {
     private void doLogPointcut(){
 
     }
-    @Before("find()")
+    @Before("doLogPointcut()")
     private void doLog(){
         System.out.println("=======前置增强的日志==========");
-        //System.out.println("方法开始的时间："+System.currentTimeMillis());
+        System.out.println("方法开始的时间："+System.currentTimeMillis());
         Date d =new Date();
-        //System.out.println("方法结束的时间:"+System.currentTimeMillis());
+        System.out.println("方法结束的时间:"+System.currentTimeMillis());
         SimpleDateFormat format =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'");
         String time =format.format(d);
-        //System.out.println("执行时间："+time);
+        System.out.println("执行时间："+time);
         System.out.println("=========前置增强的日志结束=======");
     }
 
-    @After("find()")      //spring是一个ioc容器，它可以使用 di将程序运行的信息注入
+    @After("update()")      //spring是一个ioc容器，它可以使用 di将程序运行的信息注入
     private void bye( JoinPoint jp){
-        System.out.println("===After===");
+        System.out.println("===bye===");
         //连接点的所有的信息
         Object target = jp.getTarget();
-        //System.out.println("目标类为："+target);
-        //System.out.println("方法："+jp.getSignature());
+        System.out.println("目标类为："+target);
+        System.out.println("方法："+jp.getSignature());
         Object [] objects =jp.getArgs();
         for(Object o:objects){
-            //System.out.println("参数："+o);
+            System.out.println("参数："+o);
         }
 
     }
